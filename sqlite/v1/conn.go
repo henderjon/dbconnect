@@ -14,7 +14,7 @@ const (
 )
 
 // MustConnect returns a new DB connection
-func MustConnect(dsn string, maxconns int) (*sql.DB, error) {
+func MustConnect(dsn string, maxconns int) *sql.DB {
 
 	dsn, ok := os.LookupEnv(dsn)
 	if ok != true {
@@ -22,7 +22,8 @@ func MustConnect(dsn string, maxconns int) (*sql.DB, error) {
 		log.Fatal(err)
 	}
 
-	db, err := sql.Open("sqlite3", "file:"+dsn+"?cache=shared")
+	//"?cache=shared"
+	db, err := sql.Open("sqlite3", "file:"+dsn)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,7 +43,7 @@ func MustConnect(dsn string, maxconns int) (*sql.DB, error) {
 	}
 
 	// defer db.Close()
-	return db, nil
+	return db
 }
 
 // Vacuum rebuilds the DB file to keep it tidy

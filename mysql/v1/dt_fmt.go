@@ -3,7 +3,7 @@ package mysql
 import (
 	"time"
 
-	"github.com/henderjon/dbconnect/datetimes"
+	"github.com/henderjon/dbconnect/datetimes/v1"
 )
 
 const ( // Mon Jan 2 15:04:05 MST 2006
@@ -22,7 +22,7 @@ const ( // Mon Jan 2 15:04:05 MST 2006
 )
 
 func ParseMySQLDateTime(t string) time.Time {
-	timestamp, err := time.Parse(MySQLDateTime, t)
+	timestamp, err := time.Parse(FmtDateTime, t)
 	if err != nil {
 		panic(err)
 	}

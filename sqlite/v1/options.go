@@ -83,3 +83,14 @@ func CacheSize(cacheSize int) Option {
 		return nil
 	})
 }
+
+func BusyTimeout(milliseconds int) Option {
+	return Option(func(db *sql.DB) error {
+		qry := fmt.Sprintf(`PRAGMA busy_timeout=%d;`, milliseconds)
+		_, err := db.Exec(qry)
+		if err != nil {
+			return fmt.Errorf("%s: %s", err, qry)
+		}
+		return nil
+	})
+}

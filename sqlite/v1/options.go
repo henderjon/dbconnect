@@ -97,7 +97,7 @@ func PageSize(pageSize int) Option {
 	})
 }
 
-// CacheSize defaults to '-2000' which is 2.048MB
+// CacheSize defaults to '-2000' kibibytes which is 2.048MB
 func CacheSize(cacheSize int) Option {
 	return Option(func(db *sql.DB) error {
 		qry := fmt.Sprintf(`PRAGMA cache_size=%d;`, cacheSize)

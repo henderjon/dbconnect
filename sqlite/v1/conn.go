@@ -21,7 +21,7 @@ func MustConnect(dsn string, opts ...Option) *sql.DB {
 	}
 
 	//"?cache=shared"
-	db, err := sql.Open("sqlite3", "file:"+dsn)
+	db, err := sql.Open("sqlite3", dsn)
 	if err != nil {
 		log.Fatalln(err)
 	}

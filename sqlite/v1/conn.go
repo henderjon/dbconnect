@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	_ "rsc.io/sqlite"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 const (

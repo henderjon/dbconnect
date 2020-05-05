@@ -3,10 +3,9 @@ package sqlite
 import (
 	"database/sql"
 	"fmt"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
+// https://www.sqlite.org/pragma.html
 type Option func(db *sql.DB) error
 
 // Vacuum rebuilds the DB file to keep it tidy
@@ -21,18 +20,22 @@ func Vacuum() Option {
 	})
 }
 
-// WalCheckpoint commits the WAL; DO NOT USE
-func WALCheckpoint() Option {
+// WalCheckpoint checkpoints the Write-Ahead-Log
+func WALCheckpoint(mode string) Option {
 	return Option(func(db *sql.DB) error {
-		sql := `PRAGMA wal_checkpoint(TRUNCATE);`
-		_, err := db.Exec(sql)
+		qry := fmt.Sprintf(`PRAGMA wal_checkpoint(%s);`, mode)
+		_, err := db.Exec(qry)
 		if err != nil {
-			return fmt.Errorf("wal_checkpoint failed: %s", err)
+			return fmt.Errorf("%s: %s", err, qry)
 		}
 		return nil
 	})
 }
 
+// MaxOpenConnections sets the max open connections. Since the SQL package
+// handles the connection pool, it's best to set this to 1 (one) so that the
+// SQL package essentially wraps all writes in a mutex. This will slow down
+// writes but will help avoid a locked DB.
 func MaxOpenConnections(conns int) Option {
 	return Option(func(db *sql.DB) error {
 		db.SetMaxOpenConns(conns)
@@ -52,31 +55,10 @@ func Encoding(charset string) Option {
 	})
 }
 
-func EncodingUTF8() Option {
-	return Option(func(db *sql.DB) error {
-		qry := `PRAGMA encoding='UTF-8';`
-		_, err := db.Exec(qry)
-		if err != nil {
-			return fmt.Errorf("%s: %s", err, qry)
-		}
-		return nil
-	})
-}
-
-func Journal(mode string) Option {
+// JournalMode sets the journal mode for the DB, typically WAL
+func JournalMode(mode string) Option {
 	return Option(func(db *sql.DB) error {
 		qry := fmt.Sprintf(`PRAGMA journal_mode=%s;`, mode)
-		_, err := db.Exec(qry)
-		if err != nil {
-			return fmt.Errorf("%s: %s", err, qry)
-		}
-		return nil
-	})
-}
-
-func JournalWAL() Option {
-	return Option(func(db *sql.DB) error {
-		qry := `PRAGMA journal_mode=WAL;`
 		_, err := db.Exec(qry)
 		if err != nil {
 			return fmt.Errorf("%s: %s", err, qry)

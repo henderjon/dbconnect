@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/henderjon/dbconnect/mysql/v1"
-	"github.com/henderjon/dbconnect/sqlite/v1"
+	mysql "github.com/henderjon/dbconnect/mysql/v1"
+	sqlite "github.com/henderjon/dbconnect/sqlite/v1"
 )
 
 func main() {

@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 	"io/ioutil"
+	"time"
 
 	"github.com/go-sql-driver/mysql"
 	_ "github.com/go-sql-driver/mysql"
@@ -54,9 +55,9 @@ func MaxOpenConnections(conns int) Option {
 	})
 }
 
-func ConnMaxLifetime(conns int) Option {
+func ConnMaxLifetime(d time.Duration) Option {
 	return Option(func(db *sql.DB) error {
-		db.SetConnMaxLifetime(0)
+		db.SetConnMaxLifetime(d)
 		return nil
 	})
 }

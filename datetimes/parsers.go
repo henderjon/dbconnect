@@ -5,7 +5,7 @@ const ( // Mon Jan 2 15:04:05 MST 2006
 	FmtDateTime        = "2006-01-02 15:04:05"
 	FmtDate            = "2006-01-02"
 	FmtTime            = "15:04:05"
-	FmtTimestampDay    = "2006-01-02"
+	FmtTimestampDay    = "2006-01-02 00:00:00"
 	FmtTimestampHour   = "2006-01-02 15:00:00"
 	FmtTimestampMinute = "2006-01-02 15:04:00"
 

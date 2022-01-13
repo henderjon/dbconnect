@@ -3,7 +3,7 @@ package mysql
 import (
 	"time"
 
-	"github.com/henderjon/dbconnect/datetimes/v1"
+	"github.com/henderjon/dbconnect/datetimes"
 )
 
 const ( // Mon Jan 2 15:04:05 MST 2006

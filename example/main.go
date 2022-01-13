@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	mysql "github.com/henderjon/dbconnect/mysql/v1"
-	sqlite "github.com/henderjon/dbconnect/sqlite/v1"
+	mysql "github.com/henderjon/dbconnect/mysql"
+	sqlite "github.com/henderjon/dbconnect/sqlite"
 )
 
 func main() {
@@ -26,8 +26,8 @@ func sqlitePing() {
 	// sqlite; assumes an ENV VAR named `GO_TEST_SQLITE_DSN`
 	db := sqlite.MustConnect("GO_TEST_SQLITE_DSN",
 		sqlite.MaxOpenConnections(1),
-		sqlite.EncodingUTF8(),
-		sqlite.JournalWAL(),
+		sqlite.Encoding(`UTF-8`),
+		sqlite.JournalMode(`WAL`),
 		sqlite.PageSize(4096),
 		sqlite.CacheSize(-200000),
 	)
